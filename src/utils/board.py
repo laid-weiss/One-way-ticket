@@ -7,3 +7,6 @@ class TurnType(Enum):
     TAKING_DESTINATION_TICKETS = 2
     BUILDING_STRETCH = 3
 
+
+class Map:
+    pass

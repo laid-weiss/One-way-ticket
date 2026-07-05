@@ -78,3 +78,6 @@ class MainTrainCardDeck:
         if (self.open_cards_need_refresh()):
             self.open_cards_refresh()
         return
+    
+    def GetOpenCards(self) -> list[TrainCardType] :
+        return self.__open_cards.copy()
