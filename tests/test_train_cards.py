@@ -3,19 +3,8 @@ from unittest.mock import patch, MagicMock
 import sys
 import os
 
-# Находим путь к папке, которая на один уровень выше текущего файла (к корню проекта)
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-
-# Добавляем этот путь в список поиска Python, если его там ещё нет
-if project_root not in sys.path:
-    sys.path.insert(0, project_root)
-
-# Теперь импорт сработает идеально, независимо от того, откуда запущен скрипт!
-from utils.train_cards import MainTrainCardDeck, TrainCardType
-from utils.constants import *
-
-# Импортируем ваш тестируемый код
-# from your_module import MainTrainCardDeck, TrainCardType 
+from src.utils.train_cards import MainTrainCardDeck, TrainCardType
+from src.utils.constants import *
 
 class TestMainTrainCardDeck(unittest.TestCase):
 
