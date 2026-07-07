@@ -11,9 +11,9 @@ class MainMenuController:
             
             if (option["x"]  < x < option["x"] + option["width"]) and \
                (option["y"] < y < option["y"] + option["height"]):
-                option["is_hovered"] = True
-            else:
                 option["is_hovered"] = False
+            else:
+                option["is_hovered"] = True
 
     def on_mouse_press(self, x, y, button, modifiers):
         if button == arcade.MOUSE_BUTTON_LEFT:
