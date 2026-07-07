@@ -9,8 +9,8 @@ class MainMenuContainer(arcade.View):
         
         # Instantiate the MVC triad
         # We pass the window dimensions to the model so it can center elements
-        self.model = MainMenuModel(self.window.width, self.window.height)
-        self.view = MainMenuView(self.model)
+        self.model = MainMenuModel(self)
+        self.view = MainMenuView(self.model, self)
         self.controller = MainMenuController(self.model, self)
 
     def on_show_view(self):

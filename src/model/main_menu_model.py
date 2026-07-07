@@ -1,25 +1,46 @@
+from ..utils import constants
+
+#button: 320 x 224
+#
+
 class MainMenuModel:
-    def __init__(self, screen_width, screen_height):
-        center_x = screen_width / 2
+    
+    button_x_offset = 0
+    button_start_y_offset = 0
+    button_settings_y_offset = 0
+    button_quit_y_offset = 0
+    
+    def __init__(self, container):
+        
+        self.container = container
         
         # Define the buttons/options for the menu
         self.options = [
             {
                 "id": "start",
-                "text": "Start Game", 
-                "x": center_x, 
-                "y": screen_height / 2 + 30, 
-                "width": 250, 
-                "height": 50, 
-                "is_hovered": False
+                "x": self.button_x_offset ,
+                "y": self.button_start_y_offset,
+                "width": 320*4, 
+                "height": 224*4, 
+                "is_hovered": False,
+                "is_pressed" : False
+            },
+            {
+                "id": "settings",
+                "x": self.button_x_offset, 
+                "y": self.button_settings_y_offset,
+                "width": 320*4, 
+                "height": 224*4, 
+                "is_hovered": False,
+                "is_pressed" : False
             },
             {
                 "id": "quit",
-                "text": "Quit", 
-                "x": center_x, 
-                "y": screen_height / 2 - 40, 
-                "width": 250, 
-                "height": 50, 
-                "is_hovered": False
+                "x": self.button_x_offset, 
+                "y": self.button_quit_y_offset,
+                "width": 320*4, 
+                "height": 224*4, 
+                "is_hovered": False,
+                "is_pressed" : False
             }
         ]
