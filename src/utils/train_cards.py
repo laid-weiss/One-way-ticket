@@ -45,23 +45,23 @@ class MainTrainCardDeck:
 
         return
     
-    def discard_open_card(self, index : int) -> TrainCardType:
+    def _discard_open_card(self, index : int) -> TrainCardType:
         result = self.__open_cards[index]
         self.__open_cards[index] = self.__remaining_cards.pop()
         if (self.is_empty()):
             self.return_discarded_cards_to_main_deck()
         return result
 
-    def draw_open_card(self, index : int) -> TrainCardType:
+    def take_open_card(self, index : int) -> TrainCardType:
         if(index > (constants.OPEN_CARDS - 1) or index < 0) :
             raise ValueError("Index of open card in train deck is invalid")
 
-        result = self.discard_open_card(index)
+        result = self._discard_open_card(index)
         if (self.open_cards_need_refresh()):
             self.open_cards_refresh()
         return result
 
-    def draw_close_card(self) -> TrainCardType:
+    def take_close_card(self) -> TrainCardType:
         if (self.is_empty()):
             self.return_discarded_cards_to_main_deck()
         return self.__remaining_cards.pop()

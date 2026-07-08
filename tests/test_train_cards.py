@@ -38,7 +38,7 @@ class TestMainTrainCardDeck(unittest.TestCase):
         initial_remaining_count = len(self.deck._MainTrainCardDeck__remaining_cards)
         
         # Берем карту с индексом 1 (в setUp это BLACK)
-        drawn_card = self.deck.draw_open_card(1)
+        drawn_card = self.deck.take_open_card(1)
         
         self.assertEqual(drawn_card, TrainCardType.BLACK)
         # Проверяем, что из основной колоды ушла одна карта на замену открытой
@@ -47,17 +47,17 @@ class TestMainTrainCardDeck(unittest.TestCase):
     def test_draw_open_card_invalid_index(self):
         """Проверяем, что при неверном индексе выбрасывается ошибка."""
         with self.assertRaises(ValueError):
-            self.deck.draw_open_card(99)  # Индекс явно больше разрешенного OPEN_CARDS - 1
+            self.deck.take_open_card(99)  # Индекс явно больше разрешенного OPEN_CARDS - 1
             
         with self.assertRaises(ValueError):
-            self.deck.draw_open_card(-1)
+            self.deck.take_open_card(-1)
 
     def test_draw_close_card(self):
         """Проверяем взятие карты в закрытую из колоды."""
         initial_count = len(self.deck._MainTrainCardDeck__remaining_cards)
         top_card = self.deck._MainTrainCardDeck__remaining_cards[-1]
         
-        drawn_card = self.deck.draw_close_card()
+        drawn_card = self.deck.take_close_card()
         
         self.assertEqual(drawn_card, top_card)
         self.assertEqual(len(self.deck._MainTrainCardDeck__remaining_cards), initial_count - 1)
@@ -79,7 +79,7 @@ class TestMainTrainCardDeck(unittest.TestCase):
         self.deck._MainTrainCardDeck__discard_pile = [TrainCardType.ORANGE, TrainCardType.PURPLE]
         
         # Триггерим вызов через метод проверки пустоты/добора
-        self.deck.draw_close_card()
+        self.deck.take_close_card()
         
         # В колоде должна остаться 1 карта (так как одну мы только что вытянули методом draw_close_card)
         self.assertEqual(len(self.deck._MainTrainCardDeck__remaining_cards), 1)
