@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from enum import Enum
-import constants
+from . import constants
 import random
 
 class DestinationTicketType(Enum):

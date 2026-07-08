@@ -1,4 +1,7 @@
 import arcade
+from ..utils import game_settings
+from ..utils.board import DifficultyLevel, TrainChipColors
+from ..utils import constants
 
 class SettingsGraphicsView:
     def __init__(self, model):
@@ -6,11 +9,11 @@ class SettingsGraphicsView:
         self.row_gap = 60
 
         self.color_map = {
-            "Red": arcade.color.CRIMSON,
-            "Blue": arcade.color.ROYAL_BLUE,
-            "Green": arcade.color.FOREST_GREEN,
-            "Yellow": arcade.color.GOLD,
-            "Black": arcade.color.BLACK
+            TrainChipColors.RED: arcade.color.CRIMSON,
+            TrainChipColors.BLUE: arcade.color.ROYAL_BLUE,
+            TrainChipColors.GREEN: arcade.color.FOREST_GREEN,
+            TrainChipColors.YELLOW: arcade.color.GOLD,
+            TrainChipColors.BLACK: arcade.color.BLACK
         }
 
     def get_row_y(self, window_height, row_index):
@@ -32,13 +35,13 @@ class SettingsGraphicsView:
         self.draw_text_radio_row(center_x, row0_y, "Mode:", self.model.mode_options, self.model.game_mode)
         
         # Dynamic Rows
-        if self.model.game_mode == "Bot":
+        if self.model.game_mode == game_settings.GameType.BOT_GAME:
             row1_y = self.get_row_y(window_height, 1)
             row2_y = self.get_row_y(window_height, 2)
             
             # Bot Difficulty & Color
             self.draw_text_radio_row(center_x, row1_y, "Difficulty:", self.model.difficulty_options, self.model.bot_difficulty)
-            self.draw_color_radio_row(center_x, row2_y, "Your Color:", self.model.player_colors["P1"])
+            self.draw_color_radio_row(center_x, row2_y, "Your Color:", self.model.player_colors[0])
         else:
             row1_y = self.get_row_y(window_height, 1)
             
@@ -47,7 +50,7 @@ class SettingsGraphicsView:
             
             # Draw color radio rows for active players
             for i in range(self.model.num_players):
-                player_key = f"P{i+1}"
+                player_key = i
                 row_y = self.get_row_y(window_height, i + 2)
                 self.draw_color_radio_row(center_x, row_y, f"Player {i+1}:", self.model.player_colors[player_key])
             

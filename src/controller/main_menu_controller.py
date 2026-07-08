@@ -1,10 +1,12 @@
 import arcade
 from ..container.settings_container import SettingsViewContainer
+from ..utils.game_settings import GameSettings
 
 class MainMenuController:
-    def __init__(self, model, container):
+    def __init__(self, model, container, game_settings : GameSettings):
         self.model = model
         self.container = container # Reference to the arcade.View to handle transitions
+        self.settings = game_settings
 
     def on_mouse_motion(self, x, y, dx, dy):
         # Check if the mouse is hovering over any button
@@ -30,7 +32,7 @@ class MainMenuController:
             # self.container.window.show_view(game_view)
         elif action_id == "settings":
             print("Going to settings...")
-            settings_view = SettingsViewContainer(self.container)
+            settings_view = SettingsViewContainer(self.container, self.settings)
             self.container.window.show_view(settings_view)
         else:
             print("Exiting...")

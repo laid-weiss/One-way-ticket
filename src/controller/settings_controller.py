@@ -1,9 +1,13 @@
 import arcade
+from ..utils.board import GameType
+from ..utils.game_settings import GameSettings
+
 
 class SettingsController:
-    def __init__(self, model, on_back_callback):
+    def __init__(self, model, on_back_callback, settings : GameSettings):
         self.model = model
         self.on_back_callback = on_back_callback
+        self.settings = settings
         self.row_gap = 60
 
     def get_row_y(self, window_height, row_index):
@@ -24,7 +28,7 @@ class SettingsController:
             return
             
         # Dynamic Rows based on Game Mode
-        if self.model.game_mode == "Bot":
+        if self.model.game_mode == GameType.BOT_GAME:
             row1_y = self.get_row_y(window_height, 1)
             row2_y = self.get_row_y(window_height, 2)
             
@@ -35,7 +39,7 @@ class SettingsController:
                 return
                 
             # P1 Color
-            self.check_color_radio_clicks(x, y, center_x, row2_y, "P1")
+            self.check_color_radio_clicks(x, y, center_x, row2_y, 0)
                 
         else:
             row1_y = self.get_row_y(window_height, 1)
@@ -48,13 +52,16 @@ class SettingsController:
                 
             # Player Colors
             for i in range(self.model.num_players):
-                player_key = f"P{i+1}"
+                player_key = i
                 row_y = self.get_row_y(window_height, i + 2)
                 if self.check_color_radio_clicks(x, y, center_x, row_y, player_key):
                     return 
                 
         # Back Button Check
         if self.is_hit(x, y, center_x, 80, 200, 50):
+            self.settings.update_settings(self.model.game_mode, 
+                                          self.model.num_players, 
+                                          self.model.player_colors[:self.model.num_players])
             self.on_back_callback()
 
     def check_text_radio_clicks(self, mouse_x, mouse_y, center_x, row_y, options):
@@ -77,13 +84,13 @@ class SettingsController:
         spacing = 50
         hit_radius = 20 
         
-        for i, color_name in enumerate(self.model.color_options):
-            btn_x = start_x + (i * spacing)
+        for i in self.model.color_options:
+            btn_x = start_x + (i.value * spacing)
             
             if (btn_x - hit_radius < mouse_x < btn_x + hit_radius and 
                 row_y - hit_radius < mouse_y < row_y + hit_radius):
                 
-                self.model.player_colors[player_key] = color_name
+                self.model.player_colors[player_key] = i
                 return True 
                 
         return False 

@@ -1,22 +1,21 @@
+from ..utils import game_settings
+from ..utils.board import DifficultyLevel, TrainChipColors
+from ..utils import constants
+
 class SettingsModel:
     def __init__(self):
         # Game Mode
-        self.mode_options = ["Local", "Bot"]
-        self.game_mode = "Local" 
+        self.mode_options = list(game_settings.GameType)
+        self.game_mode = game_settings.GameType.LOCAL_GAME
         
         # Bot Difficulty 
-        self.difficulty_options = ["Easy", "Medium", "Hard"]
-        self.bot_difficulty = "Easy"
+        self.difficulty_options = list(DifficultyLevel)
+        self.bot_difficulty = DifficultyLevel.EASY
         
         # Local Players
-        self.player_options = [2, 3, 4]
-        self.num_players = 2
+        self.player_options = [i for i in range(constants.MIN_PLAYERS, constants.MAX_PLAYERS + 1)]
+        self.num_players = constants.MIN_PLAYERS
         
         # Colors 
-        self.color_options = ["Red", "Blue", "Green", "Yellow", "Black"]
-        self.player_colors = {
-            "P1": "Red",
-            "P2": "Blue",
-            "P3": "Green",
-            "P4": "Yellow"
-        }
+        self.color_options = list(TrainChipColors)
+        self.player_colors = list(TrainChipColors)
