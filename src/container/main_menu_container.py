@@ -1,6 +1,6 @@
 import arcade
 from ..model.main_menu_model import MainMenuModel
-from ..view.game_setup_view import MainMenuView
+from ..view.main_menu_view import MainMenuView
 from ..controller.main_menu_controller import MainMenuController
 
 class MainMenuContainer(arcade.View):
