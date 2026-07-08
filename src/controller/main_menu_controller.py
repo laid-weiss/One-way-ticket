@@ -8,15 +8,12 @@ class MainMenuController:
     def on_mouse_motion(self, x, y, dx, dy):
         # Check if the mouse is hovering over any button
         for option in self.model.options:
-            half_w = option["width"] / 2
-            half_h = option["height"] / 2
             
-            # Simple bounding box collision detection
-            if (option["x"] - half_w < x < option["x"] + half_w) and \
-               (option["y"] - half_h < y < option["y"] + half_h):
-                option["is_hovered"] = True
-            else:
+            if (option["x"]  < x < option["x"] + option["width"]) and \
+               (option["y"] < y < option["y"] + option["height"]):
                 option["is_hovered"] = False
+            else:
+                option["is_hovered"] = True
 
     def on_mouse_press(self, x, y, button, modifiers):
         if button == arcade.MOUSE_BUTTON_LEFT:

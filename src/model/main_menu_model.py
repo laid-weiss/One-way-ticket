@@ -1,25 +1,51 @@
+from ..utils import constants
+
+#button: 320 x 224
+#
+
 class MainMenuModel:
-    def __init__(self, screen_width, screen_height):
-        center_x = screen_width / 2
+    
+    button_x_pixel_offset = 32
+    button_start_y_pixel_offset = 99
+    button_settings_y_pixel_offset = 78
+    button_quit_y_pixel_offset = 57
+
+    button_x_offset = button_x_pixel_offset * constants.PIXEL_SIZE
+    button_start_y_offset = button_start_y_pixel_offset * constants.PIXEL_SIZE
+    button_settings_y_offset = button_settings_y_pixel_offset * constants.PIXEL_SIZE
+    button_quit_y_offset = button_quit_y_pixel_offset * constants.PIXEL_SIZE 
+    
+    def __init__(self, container):
+        
+        self.container = container
         
         # Define the buttons/options for the menu
         self.options = [
             {
                 "id": "start",
-                "text": "Start Game", 
-                "x": center_x, 
-                "y": screen_height / 2 + 30, 
-                "width": 250, 
-                "height": 50, 
-                "is_hovered": False
+                "x": self.button_x_offset ,
+                "y": self.button_start_y_offset,
+                "width": constants.PIXEL_SIZE * 92, 
+                "height": constants.PIXEL_SIZE * 25, 
+                "is_hovered": False,
+                "is_pressed" : False
+            },
+            {
+                "id": "settings",
+                "x": self.button_x_offset, 
+                "y": self.button_settings_y_offset,
+                "width": constants.PIXEL_SIZE * 92, 
+                "height": constants.PIXEL_SIZE * 20, 
+                "is_hovered": False,
+                "is_pressed" : False
             },
             {
                 "id": "quit",
-                "text": "Quit", 
-                "x": center_x, 
-                "y": screen_height / 2 - 40, 
-                "width": 250, 
-                "height": 50, 
-                "is_hovered": False
+                "x": self.button_x_offset, 
+                "y": self.button_quit_y_offset,
+                "width": constants.PIXEL_SIZE * 92, 
+                "height": constants.PIXEL_SIZE * 20, 
+                "is_hovered": False,
+                "is_pressed" : False
             }
         ]
