@@ -456,6 +456,8 @@ class GameModel:
 
     def train_card_button_states(self) -> list[CardButtonState]:
         card_w, card_h = constants.TRAIN_CARD_SIZE_PIXELS
+        card_w = card_w//2
+        card_h = card_h//2
         gap = 2
         total_width = len(TRAIN_CARD_BUTTON_ORDER) * card_w + (len(TRAIN_CARD_BUTTON_ORDER) - 1) * gap
         start_left = (constants.SCREEN_WIDTH_IN_PIXELS - total_width) // 2
