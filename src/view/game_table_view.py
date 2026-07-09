@@ -108,8 +108,6 @@ class GameTableView:
 
     def draw(self):
         self._draw_background()
-        if self.show_route_cards[self.model.current_player_index]:
-            self._draw_city_highlights()
 
         self._draw_claimed_wagons()
         self._draw_player_plates()
@@ -118,6 +116,9 @@ class GameTableView:
 
         if self.show_route_cards[self.model.current_player_index]:
             self._draw_route_cards()
+
+        if self.show_route_cards[self.model.current_player_index]:
+            self._draw_city_highlights()
 
         self._draw_train_card_buttons()
         self._draw_current_player_counters()
