@@ -6,7 +6,7 @@ SCREEN_WIDTH_IN_PIXELS = 320
 SCREEN_HEIGHT_IN_PIXELS = 224
 
 # Global pixel-art scale. Every drawing formula in the game scene goes through it.
-PIXEL_SIZE = 2
+PIXEL_SIZE = 4
 
 SCREEN_WIDTH = int(SCREEN_WIDTH_IN_PIXELS * PIXEL_SIZE)
 SCREEN_HEIGHT = int(SCREEN_HEIGHT_IN_PIXELS * PIXEL_SIZE)
