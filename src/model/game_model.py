@@ -222,10 +222,10 @@ class FinalScoreSummary:
 
 _DEFAULT_TRACK_CHIP_ROWS = [
     # Manually grouped rows based on the provided example (Items 1-24)
-    ((17, 18, 8)), # vancouver-seatle
-    ((10, 33, 7)), #seatle-portland
-    ((17, 36, 7)), #seatle-portland
-    ((32, 9, 1)), # vancouver-calgary
+    ((17, 18, 8),), # vancouver-seatle
+    ((10, 33, 7),), #seatle-portland
+    ((17, 36, 7),), #seatle-portland
+    ((32, 9, 1),), # vancouver-calgary
     ((49, 5, 3), (60, 2, 1), (72, 5, 16)), #calgary-winnipeg
     ((25, 24, 4), (35, 17, 6)), #calgary-seatle
     ((49, 18, 13), (55, 31, 12)), #calgary-helena
@@ -252,40 +252,104 @@ _DEFAULT_TRACK_CHIP_ROWS = [
     ((130, 16, 5), (140, 10, 3) ,(150, 8, 1)), # sault-ste-marie - montreal
     ((131, 23, 2), (141, 25, 16)), # sault-ste-marie - toronto
     ((152, 12, 6), (148, 21, 8)), # montreal - toronto
-    ((168, 15, 15)), # monreal - boston
-    ((163, 19, 13)), # monreal - boston
-    ((169, 34, 9)), # boston - new york
-    ((164, 32, 8)), # boston - new york
-    ((155, 46, 5)), # new york - pittsburgh
-    ((165, 52, 12)), # new york - washington
+    ((168, 15, 15),), # monreal - boston
+    ((163, 19, 13),), # monreal - boston
+    ((169, 34, 9),), # boston - new york
+    ((164, 32, 8),), # boston - new york
+    ((155, 46, 5),), # new york - pittsburgh
+    ((165, 52, 12),), # new york - washington
     ((149, 56, 14), (158, 61, 17)), # washington - pittsburgh
     ((140, 48, 3), (128, 51, 6)), # pittsburgh - chicago
     ((117, 68, 9), (124, 73, 5), (132, 63, 7)), # chicago - saint louis
     ((140, 55, 7), (132, 63, 8), (124, 72, 4)), # saint louis - pittsburgh
     ((161, 71, 6), (164, 84, 14), (166, 92, 6)),# washington - raleigh
-    ((154, 95, 17)), # charleson - atlanta
-    ((140, 90, 16)), # atlanta - nashville
-    ((151, 86, 7)), # nashville - raleigh
-    ((125, 82, 17)), # nashville - saint louis
-    ((128, 91, 5)), # nashville - little rock
-    ((120, 88, 13)), # little rock - saint louis
+    ((154, 95, 17),), # charleson - atlanta
+    ((140, 90, 16),), # atlanta - nashville
+    ((151, 86, 7),), # nashville - raleigh
+    ((125, 82, 17),), # nashville - saint louis
+    ((128, 91, 5),), # nashville - little rock
+    ((120, 88, 13),), # little rock - saint louis
     ((115, 94, 16), (103, 94, 4)), #little rock - oklahoma city
-    ((104, 101, 16), (114, 101, 14)) #little rock - oklahoma city
+    ((104, 101, 16), (114, 101, 14)), #little rock - oklahoma city
+    ((17, 84, 3), (28, 79, 4), (38, 75, 5)) # san francisco - salt lake city
 ]
 
 
-def _chips(*rows: tuple[int, int, int]) -> list[ChipDrawSpec]:
+def _chips(rows: list[tuple[int, int, int]]) -> list[ChipDrawSpec]:
     return [ChipDrawSpec(x, y, max(0, frame - 1)) for x, y, frame in rows]
 
 
+# def build_default_tracks() -> list[RouteTrack]:
+#     return [
+#         RouteTrack("la-wa-a", Destination.LA, Destination.WA, 3, TrainCardType.YELLOW, _chips(*_DEFAULT_TRACK_CHIP_ROWS[0]), double_group="la-wa"),
+#         RouteTrack("la-wa-b", Destination.LA, Destination.WA, 4, TrainCardType.GREEN, _chips(*_DEFAULT_TRACK_CHIP_ROWS[1]), double_group="la-wa"),
+#         RouteTrack("la-den", Destination.LA, Destination.DEN, 4, None, _chips(*_DEFAULT_TRACK_CHIP_ROWS[2])),
+#         RouteTrack("den-chi", Destination.DEN, Destination.CHI, 4, TrainCardType.ORANGE, _chips(*_DEFAULT_TRACK_CHIP_ROWS[3])),
+#         RouteTrack("chi-dc", Destination.CHI, Destination.DC, 4, TrainCardType.BLUE, _chips(*_DEFAULT_TRACK_CHIP_ROWS[4])),
+#         RouteTrack("wa-dc", Destination.WA, Destination.DC, 5, TrainCardType.BLACK, _chips(*_DEFAULT_TRACK_CHIP_ROWS[5])),
+#     ]
+
 def build_default_tracks() -> list[RouteTrack]:
     return [
-        RouteTrack("la-wa-a", Destination.LA, Destination.WA, 3, TrainCardType.YELLOW, _chips(*_DEFAULT_TRACK_CHIP_ROWS[0]), double_group="la-wa"),
-        RouteTrack("la-wa-b", Destination.LA, Destination.WA, 4, TrainCardType.GREEN, _chips(*_DEFAULT_TRACK_CHIP_ROWS[1]), double_group="la-wa"),
-        RouteTrack("la-den", Destination.LA, Destination.DEN, 4, None, _chips(*_DEFAULT_TRACK_CHIP_ROWS[2])),
-        RouteTrack("den-chi", Destination.DEN, Destination.CHI, 4, TrainCardType.ORANGE, _chips(*_DEFAULT_TRACK_CHIP_ROWS[3])),
-        RouteTrack("chi-dc", Destination.CHI, Destination.DC, 4, TrainCardType.BLUE, _chips(*_DEFAULT_TRACK_CHIP_ROWS[4])),
-        RouteTrack("wa-dc", Destination.WA, Destination.DC, 5, TrainCardType.BLACK, _chips(*_DEFAULT_TRACK_CHIP_ROWS[5])),
+        RouteTrack("vancouver-seattle", Destination.Vancouver, Destination.Seattle, 1, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[0])),
+        
+        RouteTrack("seattle-portland-a", Destination.Seattle, Destination.Portland, 1, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[1]), double_group="seattle-portland"),
+        RouteTrack("seattle-portland-b", Destination.Seattle, Destination.Portland, 1, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[2]), double_group="seattle-portland"),
+        
+        RouteTrack("vancouver-calgary", Destination.Vancouver, Destination.Calgary, 1, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[3])),
+        RouteTrack("calgary-winnipeg", Destination.Calgary, Destination.Winnipeg, 3, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[4])),
+        RouteTrack("calgary-seattle", Destination.Calgary, Destination.Seattle, 2, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[5])),
+        RouteTrack("calgary-helena", Destination.Calgary, Destination.Helena, 2, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[6])),
+        RouteTrack("winnipeg-helena", Destination.Winnipeg, Destination.Helena, 2, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[7])),
+        RouteTrack("winnipeg-sault-ste-marie", Destination.Winnipeg, Destination.Sault_Ste_Marie, 3, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[8])),
+        RouteTrack("sault-ste-marie-duluth", Destination.Sault_Ste_Marie, Destination.Duluth, 2, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[9])),
+        RouteTrack("duluth-helena", Destination.Duluth, Destination.Helena, 3, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[10])),
+        RouteTrack("helena-portland", Destination.Helena, Destination.Portland, 3, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[11])),
+        
+        RouteTrack("portland-san-francisco-a", Destination.Portland, Destination.San_Francisco, 4, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[12]), double_group="portland-san-francisco"),
+        RouteTrack("portland-san-francisco-b", Destination.Portland, Destination.San_Francisco, 4, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[13]), double_group="portland-san-francisco"),
+        
+        RouteTrack("portland-salt-lake-city", Destination.Portland, Destination.Salt_Lake_City, 4, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[14])),
+        RouteTrack("helena-salt-lake-city", Destination.Helena, Destination.Salt_Lake_City, 2, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[15])),
+        RouteTrack("helena-denver", Destination.Helena, Destination.Denver, 3, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[16])),
+        
+        RouteTrack("salt-lake-city-denver-a", Destination.Salt_Lake_City, Destination.Denver, 2, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[17]), double_group="salt-lake-city-denver"),
+        RouteTrack("salt-lake-city-denver-b", Destination.Salt_Lake_City, Destination.Denver, 2, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[18]), double_group="salt-lake-city-denver"),
+        
+        RouteTrack("denver-omaha", Destination.Denver, Destination.Omaha, 2, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[19])),
+        RouteTrack("omaha-helena", Destination.Omaha, Destination.Helena, 3, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[20])),
+        RouteTrack("omaha-duluth", Destination.Omaha, Destination.Duluth, 2, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[21])),
+        RouteTrack("omaha-chicago", Destination.Omaha, Destination.Chicago, 2, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[22])),
+        RouteTrack("chicago-duluth", Destination.Chicago, Destination.Duluth, 2, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[23])),
+        RouteTrack("duluth-toronto", Destination.Duluth, Destination.Toronto, 4, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[24])),
+        RouteTrack("sault-ste-marie-montreal", Destination.Sault_Ste_Marie, Destination.Montreal, 3, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[25])),
+        RouteTrack("sault-ste-marie-toronto", Destination.Sault_Ste_Marie, Destination.Toronto, 2, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[26])),
+        RouteTrack("montreal-toronto", Destination.Montreal, Destination.Toronto, 2, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[27])),
+        
+        RouteTrack("montreal-boston-a", Destination.Montreal, Destination.Boston, 1, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[28]), double_group="montreal-boston"),
+        RouteTrack("montreal-boston-b", Destination.Montreal, Destination.Boston, 1, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[29]), double_group="montreal-boston"),
+        
+        RouteTrack("boston-new-york-a", Destination.Boston, Destination.New_York, 1, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[30]), double_group="boston-new-york"),
+        RouteTrack("boston-new-york-b", Destination.Boston, Destination.New_York, 1, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[31]), double_group="boston-new-york"),
+        
+        RouteTrack("new-york-pittsburgh", Destination.New_York, Destination.Pittsburgh, 1, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[32])),
+        RouteTrack("new-york-washington", Destination.New_York, Destination.Washington, 1, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[33])),
+        RouteTrack("washington-pittsburgh", Destination.Washington, Destination.Pittsburgh, 2, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[34])),
+        RouteTrack("pittsburgh-chicago", Destination.Pittsburgh, Destination.Chicago, 2, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[35])),
+        RouteTrack("chicago-saint-louis", Destination.Chicago, Destination.Saint_Louis, 3, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[36])),
+        RouteTrack("saint-louis-pittsburgh", Destination.Saint_Louis, Destination.Pittsburgh, 3, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[37])),
+        RouteTrack("washington-raleigh", Destination.Washington, Destination.Raleigh, 3, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[38])),
+        RouteTrack("charleston-atlanta", Destination.Charleston, Destination.Atlanta, 1, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[39])),
+        RouteTrack("atlanta-nashville", Destination.Atlanta, Destination.Nashville, 1, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[40])),
+        RouteTrack("nashville-raleigh", Destination.Nashville, Destination.Raleigh, 1, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[41])),
+        RouteTrack("nashville-saint-louis", Destination.Nashville, Destination.Saint_Louis, 1, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[42])),
+        RouteTrack("nashville-little-rock", Destination.Nashville, Destination.Little_Rock, 1, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[43])),
+        RouteTrack("little-rock-saint-louis", Destination.Little_Rock, Destination.Saint_Louis, 1, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[44])),
+        
+        RouteTrack("little-rock-oklahoma-city-a", Destination.Little_Rock, Destination.Oklahoma_City, 2, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[45]), double_group="little-rock-oklahoma-city"),
+        RouteTrack("little-rock-oklahoma-city-b", Destination.Little_Rock, Destination.Oklahoma_City, 2, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[46]), double_group="little-rock-oklahoma-city"),
+        RouteTrack("salt-lake-city-san-francisco", Destination.Salt_Lake_City, Destination.San_Francisco, 3, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[47]))
+
     ]
 
 
