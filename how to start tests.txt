@@ -1,3 +1,9 @@
-python -m unittest discover - из корня проекта
-python -m unittest discover -s path_to_tests_dir -t path_to_coren_dir - из любого места системы 
-(например python -m unittest discover -s C:\misha\One-way-ticket\tests -t C:\misha\One-way-ticket)              
+Из корня проекта:
+
+python -m unittest discover
+
+или:
+
+python ran_all_test.py
+
+Оба способа автоматически добавляют src в путь импортов для тестов.

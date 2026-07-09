@@ -62,6 +62,7 @@ class SettingsController:
             self.settings.update_settings(self.model.game_mode, 
                                           self.model.num_players, 
                                           self.model.player_colors[:self.model.num_players])
+            self.settings.save()
             self.on_back_callback()
 
     def check_text_radio_clicks(self, mouse_x, mouse_y, center_x, row_y, options):

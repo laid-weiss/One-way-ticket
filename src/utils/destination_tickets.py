@@ -1,61 +1,93 @@
+from __future__ import annotations
+
 from dataclasses import dataclass
 from enum import Enum
-from . import constants
 import random
+
+from . import constants
+
 
 class DestinationTicketType(Enum):
     LONG = 0
     SHORT = 1
 
-#TODO add proper destinations when finalized
- 
+
 class Destination(Enum):
     LA = 0
     DC = 1
     WA = 2
+    NY = 3
+    CHI = 4
+    DEN = 5
+    SEA = 6
+    SF = 7
+    ATL = 8
+    MIA = 9
 
-@dataclass
+
+@dataclass(frozen=True)
 class DestinationTicket:
-    type : DestinationTicketType
-    start : Destination
-    finish : Destination
-    price : int
+    type: DestinationTicketType
+    start: Destination
+    finish: Destination
+    price: int
 
-#TODO add proper tickets when finalized
 
+# Compact deck for the current prototype. It is intentionally bigger than the
+# old two-card placeholder so four local players can receive initial tickets.
 ALL_DESTINATION_TICKETS = [
     DestinationTicket(DestinationTicketType.SHORT, Destination.LA, Destination.DC, 10),
-    DestinationTicket(DestinationTicketType.SHORT, Destination.LA, Destination.WA, 5)
+    DestinationTicket(DestinationTicketType.SHORT, Destination.LA, Destination.WA, 5),
+    DestinationTicket(DestinationTicketType.SHORT, Destination.WA, Destination.DC, 8),
+    DestinationTicket(DestinationTicketType.SHORT, Destination.SF, Destination.DEN, 7),
+    DestinationTicket(DestinationTicketType.SHORT, Destination.DEN, Destination.CHI, 6),
+    DestinationTicket(DestinationTicketType.SHORT, Destination.CHI, Destination.NY, 6),
+    DestinationTicket(DestinationTicketType.SHORT, Destination.ATL, Destination.MIA, 5),
+    DestinationTicket(DestinationTicketType.SHORT, Destination.NY, Destination.DC, 4),
+    DestinationTicket(DestinationTicketType.LONG, Destination.SEA, Destination.MIA, 20),
+    DestinationTicket(DestinationTicketType.LONG, Destination.LA, Destination.NY, 21),
+    DestinationTicket(DestinationTicketType.LONG, Destination.SF, Destination.ATL, 17),
+    DestinationTicket(DestinationTicketType.LONG, Destination.SEA, Destination.DC, 18),
+    DestinationTicket(DestinationTicketType.LONG, Destination.LA, Destination.MIA, 19),
+    DestinationTicket(DestinationTicketType.LONG, Destination.DEN, Destination.DC, 12),
 ]
 
 type PlayerDestinationTicketDeck = list[DestinationTicket]
 
+
 class MainDestinationTicketDeck:
-    __remaining_destinations : list[DestinationTicket]
-    __discard_pile : list[DestinationTicket]
+    __remaining_destinations: list[DestinationTicket]
+    __discard_pile: list[DestinationTicket]
 
-    def __init__(self):
-        self.__remaining_destinations = ALL_DESTINATION_TICKETS
+    def __init__(self, shuffle: bool = True):
+        self.__remaining_destinations = list(ALL_DESTINATION_TICKETS)
         self.__discard_pile = []
+        if shuffle:
+            random.shuffle(self.__remaining_destinations)
 
-    def draw_tickets(self)->list[DestinationTicket]:
-        result = []
-        if (len(self.__remaining_destinations) < 3):
-            self.return_discarded_cards_to_main_deck()
-        for i in range(constants.DRAW_DESTINATION_TICKETS):
-            if(not self.is_empty()):
-                result.append(self.__remaining_destinations.pop())
+    def draw_tickets(self, count: int = constants.DRAW_DESTINATION_TICKETS) -> list[DestinationTicket]:
+        """Draw up to `count` top route tickets. If fewer are left, return all left."""
+        result: list[DestinationTicket] = []
+        for _ in range(count):
+            if self.is_empty():
+                break
+            result.append(self.__remaining_destinations.pop())
         return result
 
-    def return_tickets(self, *tickets) -> None:
-        for i in tickets:
-           self.__discard_pile.append(i) 
-    
+    def return_tickets(self, *tickets: DestinationTicket) -> None:
+        """Return refused tickets under the route deck, face down."""
+        for ticket in tickets:
+            self.__remaining_destinations.insert(0, ticket)
+
     def is_empty(self) -> bool:
         return len(self.__remaining_destinations) == 0
-    
+
     def return_discarded_cards_to_main_deck(self) -> None:
+        # Backward-compatible API: old code called this name. In the final rules,
+        # refused destination tickets are placed under the deck instead of shuffled.
         random.shuffle(self.__discard_pile)
-        self.__remaining_destinations.extend(self.__discard_pile)
+        self.__remaining_destinations = self.__discard_pile + self.__remaining_destinations
         self.__discard_pile = []
-        return
+
+    def remaining_count(self) -> int:
+        return len(self.__remaining_destinations)
