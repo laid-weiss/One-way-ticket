@@ -1,0 +1,9 @@
+{
+  "game_type": "LOCAL_GAME",
+  "number_of_players": 3,
+  "chip_colors": [
+    "RED",
+    "BLACK",
+    "BLUE"
+  ]
+}
