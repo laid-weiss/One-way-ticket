@@ -50,7 +50,9 @@ class Destination(Enum):
     Salt_Lake_City = 35
     Toronto = 36
     Oklahoma_City = 37
-    
+    Hashville = 38
+
+
 
 
 
@@ -65,20 +67,20 @@ class DestinationTicket:
 # Compact deck for the current prototype. It is intentionally bigger than the
 # old two-card placeholder so four local players can receive initial tickets.
 ALL_DESTINATION_TICKETS = [
-    DestinationTicket(DestinationTicketType.SHORT, Destination.LA, Destination.DC, 10),
-    DestinationTicket(DestinationTicketType.SHORT, Destination.LA, Destination.WA, 5),
-    DestinationTicket(DestinationTicketType.SHORT, Destination.WA, Destination.DC, 8),
-    DestinationTicket(DestinationTicketType.SHORT, Destination.SF, Destination.DEN, 7),
-    DestinationTicket(DestinationTicketType.SHORT, Destination.DEN, Destination.CHI, 6),
-    DestinationTicket(DestinationTicketType.SHORT, Destination.CHI, Destination.NY, 6),
-    DestinationTicket(DestinationTicketType.SHORT, Destination.ATL, Destination.MIA, 5),
-    DestinationTicket(DestinationTicketType.SHORT, Destination.NY, Destination.DC, 4),
-    DestinationTicket(DestinationTicketType.LONG, Destination.SEA, Destination.MIA, 20),
-    DestinationTicket(DestinationTicketType.LONG, Destination.LA, Destination.NY, 21),
-    DestinationTicket(DestinationTicketType.LONG, Destination.SF, Destination.ATL, 17),
-    DestinationTicket(DestinationTicketType.LONG, Destination.SEA, Destination.DC, 18),
-    DestinationTicket(DestinationTicketType.LONG, Destination.LA, Destination.MIA, 19),
-    DestinationTicket(DestinationTicketType.LONG, Destination.DEN, Destination.DC, 12),
+    DestinationTicket(DestinationTicketType.SHORT, Destination.Helena, Destination.New_York, 10),
+    DestinationTicket(DestinationTicketType.SHORT, Destination.Miami, Destination.Chicago, 5),
+    DestinationTicket(DestinationTicketType.SHORT, Destination.Denver, Destination.Phoenix, 8),
+    DestinationTicket(DestinationTicketType.SHORT, Destination.Kansas_City, Destination.Denver, 7),
+    DestinationTicket(DestinationTicketType.SHORT, Destination.El_Paso, Destination.Pittsburgh, 6),
+    DestinationTicket(DestinationTicketType.SHORT, Destination.Salt_Lake_City, Destination.Calgary, 6),
+    DestinationTicket(DestinationTicketType.SHORT, Destination.Toronto, Destination.Winnipeg, 5),
+    DestinationTicket(DestinationTicketType.SHORT, Destination.Raleigh, Destination.San_Francisco, 4),
+    DestinationTicket(DestinationTicketType.LONG, Destination.Oklahoma_City, Destination.Sault_Ste_Marie, 20),
+    DestinationTicket(DestinationTicketType.LONG, Destination.Vancouver, Destination.San_Francisco, 21),
+    DestinationTicket(DestinationTicketType.LONG, Destination.Houston, Destination.Raleigh, 17),
+    DestinationTicket(DestinationTicketType.LONG, Destination.Phoenix, Destination.Omaha, 18),
+    DestinationTicket(DestinationTicketType.LONG, Destination.Calgary, Destination.New_York, 19),
+    DestinationTicket(DestinationTicketType.LONG, Destination.New_Orlean, Destination.Salt_Lake_City, 12),
 ]
 
 type PlayerDestinationTicketDeck = list[DestinationTicket]
