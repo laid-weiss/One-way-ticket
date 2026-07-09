@@ -250,7 +250,7 @@ class GameTableView:
         chips_rect = self.model.current_player_chip_counter_rect()
         score_rect = self.model.current_player_score_counter_rect()
         player = self.model.current_player
-        self._draw_text(str(player.remaining_train_chips), chips_rect.center_x, chips_rect.center_y, arcade.color.WHITE, 7, "center", "center")
+        self._draw_text(str(player.remaining_train_chips), chips_rect.center_x, chips_rect.center_y, arcade.color.BLACK, 7, "center", "center")
         self._draw_text(str(player.points), score_rect.center_x, score_rect.center_y, arcade.color.WHITE, 7, "center", "center")
 
     def _draw_status_text(self):

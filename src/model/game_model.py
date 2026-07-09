@@ -523,7 +523,7 @@ class GameModel:
         else:
             tickets = self.current_player.route_deck[:max_visible]
         start_left = constants.MAP_TOP_LEFT_PIXELS[0] + 2
-        top = 116
+        top = 140
         states: list[RouteCardState] = []
         for index, ticket in enumerate(tickets):
             rect = RectPx.from_top_left(start_left + index * (card_w + gap), top, card_w, card_h)
@@ -558,10 +558,10 @@ class GameModel:
         return states
 
     def current_player_chip_counter_rect(self) -> RectPx:
-        return RectPx.from_top_left(262, 171, 24, 14)
+        return RectPx.from_top_left(300, 190, 24, 14)
 
     def current_player_score_counter_rect(self) -> RectPx:
-        return RectPx.from_top_left(286, 199, 28, 14)
+        return RectPx.from_top_left(273, 186, 28, 14)
 
     # ------------------------------------------------------------------
     # Hit testing helpers for controller.
