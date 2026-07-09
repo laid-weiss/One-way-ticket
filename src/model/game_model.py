@@ -77,7 +77,8 @@ CITY_POINTS_TOP_LEFT: dict[Destination, tuple[int, int]] = {
     Destination.Omaha: (104, 70),
     Destination.Saint_Louis: (124, 87),
     Destination.Little_Rock: (130, 104),
-    Destination.Nashville: (140, 93),  
+    Destination.Nashville: (140, 93),
+    Destination.Chicago: (129, 64)  
 }
 
 class TurnPhase(Enum):
