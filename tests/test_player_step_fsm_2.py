@@ -22,7 +22,7 @@ class TestPlayerStepFSMPathBuilding(unittest.TestCase):
             train_deck=[],
             route_deck=[],
             temp_route_deck=[],
-            train_chips=45,
+            remaining_train_chips=45,
             points=0
         )
        
@@ -54,7 +54,7 @@ class TestPlayerStepFSMPathBuilding(unittest.TestCase):
 
         # Проверяем, что первый свободный путь (индекс 0) теперь принадлежит игроку 42
         self.assertEqual(track.owner, [1, 0])
-        self.assertEqual(self.player.train_chips, 42)  # 45 - 3 = 42 вагончика осталось
+        self.assertEqual(self.player.remaining_train_chips, 42)  # 45 - 3 = 42 вагончика осталось
         self.assertTrue(self.fsm.StepDone())
         self.assertEqual(self.player.Status, PlayerStatus.NotActive)
 
@@ -77,7 +77,7 @@ class TestPlayerStepFSMPathBuilding(unittest.TestCase):
 
         # Проверяем, что занят именно второй путь (индекс 1)
         self.assertEqual(track.owner, [99, 1])
-        self.assertEqual(self.player.train_chips, 43)  # 45 - 2 = 43 вагончика осталось
+        self.assertEqual(self.player.remaining_train_chips, 43)  # 45 - 2 = 43 вагончика осталось
         self.assertTrue(self.fsm.StepDone())
 
     def test_build_path_not_enough_chips(self):
@@ -91,7 +91,7 @@ class TestPlayerStepFSMPathBuilding(unittest.TestCase):
         )
         
         # Искусственно уменьшаем количество вагончиков у игрока до 3
-        self.player.train_chips = 3
+        self.player.remaining_train_chips = 3
         
         event_data = {
             'track_section': track,

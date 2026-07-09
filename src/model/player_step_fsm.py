@@ -62,7 +62,7 @@ class PlayerStepFSM:
             required_length = normal_cnt + loco_cnt
 
             # 1. Проверяем, хватает ли игроку пластиковых вагончиков (чипов) для строительства пути
-            if self.__player_data.train_chips < required_length:
+            if self.__player_data.remaining_train_chips < required_length:
                 # Предполагается, что вы добавили этот статус в PlayerStatus, как в предыдущем шаге
                 self.__player_data.Status = PlayerStatus.ErrorInvalidAction  # Или создайте специальный статус вроде ErrorNotEnoughChips
                 return PlayerStepFSMStates.IDLE
@@ -102,7 +102,7 @@ class PlayerStepFSM:
             track.owner[free_track_index] = self.__player_data.ID
             
             # Уменьшаем запас вагончиков у игрока
-            self.__player_data.train_chips -= required_length
+            self.__player_data.remaining_train_chips -= required_length
             
             return self.EOS()
 

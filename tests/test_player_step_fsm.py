@@ -21,7 +21,7 @@ class TestPlayerStepFSM(unittest.TestCase):
             train_deck=[],
             route_deck=[],
             temp_route_deck=[],
-            train_chips=45,
+            remaining_train_chips=45,
             points=0
         )
         
@@ -101,7 +101,7 @@ class TestPlayerStepFSM(unittest.TestCase):
 
         self.assertTrue(self.fsm.StepDone())
         self.assertEqual(track.owner, [1])  # Перегон занят игроком
-        self.assertEqual(self.player.train_chips, 42)  # Вагончики списались (45 - 3)
+        self.assertEqual(self.player.remaining_train_chips, 42)  # Вагончики списались (45 - 3)
         self.game_data.train_cards_deck.discard_cards.assert_called_once_with(3, TrainCardType.RED, 0)
 
     def test_build_path_already_taken(self):
