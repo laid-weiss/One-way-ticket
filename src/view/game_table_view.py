@@ -19,6 +19,11 @@ class GameTableView:
         arcade.load_font(str(constants.MAIN_FONT_PATH))
         self.font_name = constants.MAIN_FONT_NAME
 
+        self.show_route_cards : list[bool] = []
+        for index in range(self.model.number_of_players):
+            self.show_route_cards.append(True)
+        
+
         self.frame_texture = arcade.load_texture(constants.HOME_DIR / "assets" / "game_table" / "frame.png")
         self.map_texture = arcade.load_texture(constants.HOME_DIR / "assets" / "map" / "map.png")
         self.route_card_texture = arcade.load_texture(constants.HOME_DIR / "assets" / "route_cards" / "card.png")
@@ -99,15 +104,21 @@ class GameTableView:
             anchor_x=anchor_x,
             anchor_y=anchor_y,
         )
+    
 
     def draw(self):
         self._draw_background()
-        self._draw_city_highlights()
+        if self.show_route_cards[self.model.current_player_index]:
+            self._draw_city_highlights()
+
         self._draw_claimed_wagons()
         self._draw_player_plates()
         self._draw_open_train_cards()
         self._draw_destination_deck_button()
-        self._draw_route_cards()
+
+        if self.show_route_cards[self.model.current_player_index]:
+            self._draw_route_cards()
+
         self._draw_train_card_buttons()
         self._draw_current_player_counters()
         self._draw_status_text()

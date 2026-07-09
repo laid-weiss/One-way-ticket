@@ -15,7 +15,7 @@ class GameContainer(arcade.View):
         self.settings = settings
         self.model = GameModel(settings)
         self.graphics_view = GameTableView(self.model)
-        self.controller = GameController(self.model, self)
+        self.controller = GameController(self.model, self, self.graphics_view)
 
     def on_show_view(self):
         arcade.set_background_color(arcade.color.BLACK)
@@ -32,7 +32,7 @@ class GameContainer(arcade.View):
 
     def on_key_press(self, symbol, modifiers):
         self.controller.on_key_press(symbol, modifiers)
-
+        
     def go_back_to_menu(self):
         if self.main_menu_view is not None:
             self.window.show_view(self.main_menu_view)

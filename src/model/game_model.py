@@ -536,12 +536,13 @@ class GameModel:
     # ------------------------------------------------------------------
     # Hit testing helpers for controller.
 
-    def set_hover_from_design_point(self, x: float, y: float) -> None:
+    def set_hover_from_design_point(self, x: float, y: float, is_route_card_visible:bool) -> None:
         self.hovered_route_card_index = None
-        for state in self.route_card_states():
-            if state.rect.contains(x, y):
-                self.hovered_route_card_index = state.index
-                break
+        if is_route_card_visible:
+            for state in self.route_card_states():
+                if state.rect.contains(x, y):
+                    self.hovered_route_card_index = state.index
+                    break
 
         self.hovered_track_id = None
         hit_track = self.track_at_design_point(x, y)
