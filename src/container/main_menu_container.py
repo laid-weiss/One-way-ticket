@@ -1,7 +1,8 @@
 import arcade
 from ..model.main_menu_model import MainMenuModel
-from ..view.game_setup_view import MainMenuView
+from ..view.main_menu_view import MainMenuView
 from ..controller.main_menu_controller import MainMenuController
+from ..utils.game_settings import GameSettings
 
 class MainMenuContainer(arcade.View):
     def __init__(self):
@@ -11,7 +12,8 @@ class MainMenuContainer(arcade.View):
         # We pass the window dimensions to the model so it can center elements
         self.model = MainMenuModel(self)
         self.view = MainMenuView(self.model, self)
-        self.controller = MainMenuController(self.model, self)
+        self.settings = GameSettings()
+        self.controller = MainMenuController(self.model, self, self.settings)
 
     def on_show_view(self):
         # Setup specific to when this view appears

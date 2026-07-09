@@ -1,7 +1,8 @@
 from dataclasses import dataclass
 from enum import Enum, auto
-from . import train_cards
-from . import destination_tickets
+import train_cards
+import destination_tickets
+from .constants import COLORS
 
 class PlayerType(Enum):
     BOT = 0
@@ -25,6 +26,13 @@ class PlayerAction(Enum):
     ThrowRouteCard = auto()
     BuildPath = auto()
 
+class TRAIN_CHIP_COLOR(Enum):
+    RED = 0
+    BLUE = 1
+    GREEN = 2
+    YELLOW = 3
+    BLACK = 4
+
 @dataclass
 class Player:
     ID : int
@@ -32,5 +40,7 @@ class Player:
     train_deck : train_cards.PlayerTrainCardDeck
     route_deck : destination_tickets.PlayerDestinationTicketDeck
     temp_route_deck : destination_tickets.PlayerDestinationTicketDeck
-    train_chips : int
+    type : PlayerType
+    chip_color : TRAIN_CHIP_COLOR
+    remaining_train_chips : int
     points : int
