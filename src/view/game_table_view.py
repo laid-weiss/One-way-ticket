@@ -31,6 +31,7 @@ class GameTableView:
             arcade.load_texture(constants.HOME_DIR / "assets" / "elements" / "take_card_no_pressed.png"),
             arcade.load_texture(constants.HOME_DIR / "assets" / "elements" / "take_card_pressed.png"),
         ]
+        self.highlighted_circle = arcade.load_texture(constants.HOME_DIR / "assets" / "elements" / "kruzhochek.png")
 
         train_cards_dir = constants.HOME_DIR / "assets" / "train_cards"
         self.train_card_textures = {
@@ -145,19 +146,23 @@ class GameTableView:
                 continue
             design_x = map_left + city_point[0]
             design_y = constants.SCREEN_HEIGHT_IN_PIXELS - (map_top + city_point[1])
-            arcade.draw_circle_filled(
-                design_x * constants.PIXEL_SIZE,
-                design_y * constants.PIXEL_SIZE,
-                5 * constants.PIXEL_SIZE,
-                (255, 230, 80, 190),
-            )
-            arcade.draw_circle_outline(
-                design_x * constants.PIXEL_SIZE,
-                design_y * constants.PIXEL_SIZE,
-                7 * constants.PIXEL_SIZE,
-                arcade.color.WHITE,
-                1 * constants.PIXEL_SIZE,
-            )
+            # arcade.draw_circle_filled(
+            #     design_x * constants.PIXEL_SIZE,
+            #     design_y * constants.PIXEL_SIZE,
+            #     5 * constants.PIXEL_SIZE,
+            #     (255, 230, 80, 190),
+            # )
+            # arcade.draw_circle_outline(
+            #     design_x * constants.PIXEL_SIZE,
+            #     design_y * constants.PIXEL_SIZE,
+            #     7 * constants.PIXEL_SIZE,
+            #     arcade.color.WHITE,
+            #     1 * constants.PIXEL_SIZE,
+            # )
+            arcade.draw_texture_rect(self.highlighted_circle, arcade.XYWH(design_x * constants.PIXEL_SIZE, 
+                                                                          design_y * constants.PIXEL_SIZE, 
+                                                                          13 * constants.PIXEL_SIZE, 
+                                                                          13 * constants.PIXEL_SIZE))
 
     def _draw_claimed_wagons(self):
         for track in self.model.tracks:
