@@ -13,16 +13,43 @@ class DestinationTicketType(Enum):
 
 
 class Destination(Enum):
-    LA = 0
-    DC = 1
-    WA = 2
-    NY = 3
-    CHI = 4
-    DEN = 5
-    SEA = 6
-    SF = 7
-    ATL = 8
-    MIA = 9
+    Vancouver = 0
+    Calgary = 1
+    Seattle = 2
+    Portland = 3
+    Helena = 4
+    San_Francisco = 5
+    Los_Angeles = 6
+    Las_Vegas = 7
+    Phoenix = 8
+    El_Paso = 9
+    Denver = 10
+    Santa_Fe = 11
+    Winnipeg = 12
+    Duluth = 13
+    Omaha = 14
+    Kansas_City = 15
+    Saint_Louis = 16
+    Dallas = 17
+    Houston = 18
+    New_Orlean = 19
+    Little_Rock = 20
+    Miami = 21
+    Charleston = 22
+    Atlanta = 23
+    Nashville = 24
+    Chicago = 25
+    Pittsburgh = 26
+    Charlesto = 27
+    Raleigh = 28
+    Washington = 29
+    New_York = 30
+    Boston = 31
+    Montreal = 32
+    Sault_Ste_Marie = 33
+    Duluth = 34
+    
+
 
 
 @dataclass(frozen=True)
