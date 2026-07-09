@@ -9,8 +9,7 @@ from utils.board import TrackSection
 from utils.destination_tickets import DestinationTicket, DestinationTicketType, Destination
 
 # Импорт тестируемого автомата
-from model.player_step_fsm import PlayerStepFSM, PlayerStepFSMStates  # замените fsm_module на имя вашего файла
-
+from model.player_step_fsm import PlayerStepFSM, PlayerStepFSMStates  
 
 class TestPlayerStepFSM(unittest.TestCase):
 
@@ -30,9 +29,10 @@ class TestPlayerStepFSM(unittest.TestCase):
         self.game_data = MagicMock(spec=GeneralGameData)
         self.game_data.train_cards_deck = MagicMock()
         self.game_data.destination_tickets_dec = MagicMock()
+        self.game_data.players = [None, self.player]
         
         # Инициализируем автомат
-        self.fsm = PlayerStepFSM(self.player, self.game_data)
+        self.fsm = PlayerStepFSM(1, self.game_data)
 
     # --- ТЕСТЫ: ОБНОВЛЕНИЕ ПАРКА (КАРТЫ ПОЕЗДОВ) ---
 

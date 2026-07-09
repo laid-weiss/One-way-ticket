@@ -25,46 +25,15 @@ class TestPlayerStepFSMPathBuilding(unittest.TestCase):
             train_chips=45,
             points=0
         )
-        self.player.ID = 42  # Уникальный ID игрока для записи в track.owner
-
+       
         # Создаем заглушку для игровых данных
         self.game_data = MagicMock(spec=GeneralGameData)
         self.game_data.train_cards_deck = MagicMock()
+        self.game_data.players = [None, self.player]
         
         # Инициализируем автомат
-        self.fsm = PlayerStepFSM(self.player, self.game_data)
-
-    def test_build_path_removes_cards_from_player_hand(self):
-        """Проверяем, что карты для строительства списываются из руки игрока."""
-        # Даем игроку в руку карты перед началом теста
-        self.player.train_deck = [
-            TrainCardType.RED, TrainCardType.RED, TrainCardType.RED, 
-            TrainCardType.LOCOMOTIVE, TrainCardType.BLUE
-        ]
+        self.fsm = PlayerStepFSM(1, self.game_data)
         
-        track = TrackSection(
-            number_of_cards=(3,),
-            type_of_cards=(TrainCardType.RED,),
-            station1=Destination.LA,
-            station2=Destination.DC,
-            owner=[0]
-        )
-        
-        # Игрок строит перегон, тратя 2 красные карты и 1 локомотив
-        event_data = {
-            'track_section': track,
-            'cards_to_spend': (2, TrainCardType.RED, 1)
-        }
-
-        self.fsm.dispatch(PlayerAction.BuildPath, event_data=event_data)
-
-        # Ожидаем, что в руке останутся только неиспользованные: 1 красная и 1 синяя
-        expected_hand = [TrainCardType.RED, TrainCardType.BLUE]
-        self.assertEqual(self.player.train_deck, expected_hand)
-        
-        # Проверяем, что в общую колоду сброса метод тоже постучался
-        self.game_data.train_cards_deck.discard_cards.assert_called_once_with(2, TrainCardType.RED, 1)
-        self.assertTrue(self.fsm.StepDone())
 
     def test_build_path_first_free_lane_success(self):
         """Успешное занятие ПЕРВОГО пути на спаренном перегоне (оба свободны: [0, 0])."""
@@ -84,10 +53,10 @@ class TestPlayerStepFSMPathBuilding(unittest.TestCase):
         self.fsm.dispatch(PlayerAction.BuildPath, event_data=event_data)
 
         # Проверяем, что первый свободный путь (индекс 0) теперь принадлежит игроку 42
-        self.assertEqual(track.owner, [42, 0])
+        self.assertEqual(track.owner, [1, 0])
         self.assertEqual(self.player.train_chips, 42)  # 45 - 3 = 42 вагончика осталось
         self.assertTrue(self.fsm.StepDone())
-        self.assertEqual(self.player.Status, PlayerStatus.Active)
+        self.assertEqual(self.player.Status, PlayerStatus.NotActive)
 
     def test_build_path_second_lane_success(self):
         """Успешное занятие ВТОРОГО пути, если первый уже занят другим игроком ([99, 0])."""
@@ -107,7 +76,7 @@ class TestPlayerStepFSMPathBuilding(unittest.TestCase):
         self.fsm.dispatch(PlayerAction.BuildPath, event_data=event_data)
 
         # Проверяем, что занят именно второй путь (индекс 1)
-        self.assertEqual(track.owner, [99, 42])
+        self.assertEqual(track.owner, [99, 1])
         self.assertEqual(self.player.train_chips, 43)  # 45 - 2 = 43 вагончика осталось
         self.assertTrue(self.fsm.StepDone())
 

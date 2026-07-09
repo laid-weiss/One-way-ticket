@@ -15,8 +15,8 @@ class PlayerStepFSM:
     __game_data : GeneralGameData
     __state : PlayerStepFSMStates
 
-    def __init__(self, player_data : Player, game_data : GeneralGameData):
-        self.__player_data = player_data
+    def __init__(self, player_ID : int, game_data : GeneralGameData):
+        self.__player_data = game_data.players[player_ID]
         self.__game_data = game_data
         self.__state = PlayerStepFSMStates.IDLE
         self.__states = {
@@ -25,6 +25,11 @@ class PlayerStepFSM:
             PlayerStepFSMStates.TakingRouteCards: self._handle_TakingRouteCards,
             PlayerStepFSMStates.Done: self._handle_Done,
         }
+
+    def EOS(self):
+        self.__player_data.Status = PlayerStatus.NotActive
+        return PlayerStepFSMStates.Done
+
 
     def _handle_IDLE(self, event : PlayerAction, event_data) -> PlayerStepFSMStates:
         # Сбрасываем статус ошибки, если игрок делает новую попытку действия
@@ -99,7 +104,7 @@ class PlayerStepFSM:
             # Уменьшаем запас вагончиков у игрока
             self.__player_data.train_chips -= required_length
             
-            return PlayerStepFSMStates.Done
+            return self.EOS()
 
         # --- 3. ВЫБОР НОВЫХ ЦЕЛЕЙ ---
         elif event == PlayerAction.TakeRouteCard:
@@ -122,13 +127,15 @@ class PlayerStepFSM:
                 
             card: TrainCardType = self.__game_data.train_cards_deck.take_open_card(event_data)
             self.__player_data.train_deck.append(card)
-            return PlayerStepFSMStates.Done
+
+            return self.EOS()
 
         elif event == PlayerAction.TakeCloseCard:
             card: TrainCardType = self.__game_data.train_cards_deck.take_close_card()
             self.__player_data.train_deck.append(card)
-            return PlayerStepFSMStates.Done
 
+            return self.EOS()
+        
         self.__player_data.Status = PlayerStatus.ErrorInvalidAction
         return PlayerStepFSMStates.TakenFirstTrainCard
 
@@ -150,13 +157,12 @@ class PlayerStepFSM:
             # Переносим подтвержденные карты в руку игрока
             self.__player_data.route_deck.extend(self.__player_data.temp_route_deck)
             self.__player_data.temp_route_deck.clear()
-            return PlayerStepFSMStates.Done
+            return self.EOS()
             
         self.__player_data.Status = PlayerStatus.ErrorInvalidAction
         return PlayerStepFSMStates.TakingRouteCards
 
     def _handle_Done(self, event : PlayerAction, event_data) -> PlayerStepFSMStates:
-        self.__player_data.Status = PlayerStatus.NotActive
         return PlayerStepFSMStates.Done
 
     def StepDone(self) -> bool:

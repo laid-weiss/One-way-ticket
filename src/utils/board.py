@@ -18,7 +18,8 @@ class TrackSection:
     station2 : Destination
     owner : list[int]
 
-type TrackSectionsMap = list[dict[train_cards.TrainCardType, TrackSection]]
+# type TrackSectionsMap = list[dict[train_cards.TrainCardType, TrackSection]]
+
 
 @dataclass
 class Map:
