@@ -69,7 +69,7 @@ CITY_POINTS_TOP_LEFT: dict[Destination, tuple[int, int]] = {
     Destination.Charleston: (170, 106),
     Destination.Raleigh: (164, 87),
     Destination.Washington: (173, 71),
-    Destination.Charleston: (172, 49),
+    Destination.New_York: (172, 49),
     Destination.Pittsburgh: (154, 58),
     Destination.Atlanta: (153, 102),
     Destination.Oklahoma_City: (103, 106),
