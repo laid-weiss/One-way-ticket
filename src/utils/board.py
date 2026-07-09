@@ -13,10 +13,15 @@ class GameType(Enum):
     LOCAL_GAME = 0
     BOT_GAME = 1
 
+GameTypeToStr = ["LOCAL", "BOT"]
+
+
 class DifficultyLevel(Enum):
     EASY = 0
     MEDIUM = 1
     HARD = 2
+
+DifficultyLevelToStr = ["EASY", "MEDIUM", "HARD"]
 
 class TrainChipColors(Enum):
     RED = 0

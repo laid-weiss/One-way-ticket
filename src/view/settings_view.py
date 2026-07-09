@@ -1,6 +1,6 @@
 import arcade
 from ..utils import game_settings
-from ..utils.board import DifficultyLevel, TrainChipColors
+from ..utils.board import DifficultyLevel, TrainChipColors, DifficultyLevelToStr, GameTypeToStr
 from ..utils import constants
 
 class SettingsGraphicsView:
@@ -63,7 +63,7 @@ class SettingsGraphicsView:
         arcade.draw_text(label, center_x - 160, y - 6, arcade.color.WHITE, font_size=18, anchor_x="right")
         
         start_x = center_x - 120
-        spacing = 100 
+        spacing = 120 
         
         for i, option in enumerate(options):
             opt_x = start_x + (i * spacing)
@@ -76,7 +76,12 @@ class SettingsGraphicsView:
                 arcade.draw_circle_filled(opt_x, y, 5, arcade.color.WHITE)
                 
             # Draw the option text next to the radio circle
-            arcade.draw_text(str(option), opt_x + 18, y - 6, arcade.color.WHITE, font_size=16)
+            if (isinstance(option, DifficultyLevel)):
+                arcade.draw_text(DifficultyLevelToStr[option.value], opt_x + 18, y - 6, arcade.color.WHITE, font_size=16)
+            elif (isinstance(option, game_settings.GameType)):
+                arcade.draw_text(GameTypeToStr[option.value], opt_x + 18, y - 6, arcade.color.WHITE, font_size=16)
+            else:
+                arcade.draw_text(option, opt_x + 18, y - 6, arcade.color.WHITE, font_size=16)
 
     def draw_color_radio_row(self, center_x, y, label, selected_color):
         """Draws colored circles for player train color selection."""
