@@ -227,12 +227,12 @@ def _chips(*rows: tuple[int, int, int]) -> list[ChipDrawSpec]:
 
 def build_default_tracks() -> list[RouteTrack]:
     return [
-        RouteTrack("la-wa-a", Destination.LA, Destination.WA, 3, TrainCardType.YELLOW, _chips(*_DEFAULT_TRACK_CHIP_ROWS[0]), double_group="la-wa"),
-        RouteTrack("la-wa-b", Destination.LA, Destination.WA, 4, TrainCardType.GREEN, _chips(*_DEFAULT_TRACK_CHIP_ROWS[1]), double_group="la-wa"),
-        RouteTrack("la-den", Destination.LA, Destination.DEN, 4, None, _chips(*_DEFAULT_TRACK_CHIP_ROWS[2])),
-        RouteTrack("den-chi", Destination.DEN, Destination.CHI, 4, TrainCardType.ORANGE, _chips(*_DEFAULT_TRACK_CHIP_ROWS[3])),
-        RouteTrack("chi-dc", Destination.CHI, Destination.DC, 4, TrainCardType.BLUE, _chips(*_DEFAULT_TRACK_CHIP_ROWS[4])),
-        RouteTrack("wa-dc", Destination.WA, Destination.DC, 5, TrainCardType.BLACK, _chips(*_DEFAULT_TRACK_CHIP_ROWS[5])),
+        RouteTrack("la-wa-a", Destination.Saint_Louis, Destination.Helena, 3, TrainCardType.YELLOW, _chips(*_DEFAULT_TRACK_CHIP_ROWS[0]), double_group="la-wa"),
+        RouteTrack("la-wa-b", Destination.Denver, Destination.Charleston, 4, TrainCardType.GREEN, _chips(*_DEFAULT_TRACK_CHIP_ROWS[1]), double_group="la-wa"),
+        RouteTrack("la-den", Destination.Las_Vegas, Destination.Nashville, 4, None, _chips(*_DEFAULT_TRACK_CHIP_ROWS[2])),
+        RouteTrack("den-chi", Destination.Houston, Destination.Los_Angeles, 4, TrainCardType.ORANGE, _chips(*_DEFAULT_TRACK_CHIP_ROWS[3])),
+        RouteTrack("chi-dc", Destination.Pittsburgh, Destination.San_Francisco, 4, TrainCardType.BLUE, _chips(*_DEFAULT_TRACK_CHIP_ROWS[4])),
+        RouteTrack("wa-dc", Destination.Raleigh, Destination.Oklahoma_City, 5, TrainCardType.BLACK, _chips(*_DEFAULT_TRACK_CHIP_ROWS[5])),
     ]
 
 
@@ -419,12 +419,13 @@ class GameModel:
     # ------------------------------------------------------------------
     # Hit testing helpers for controller.
 
-    def set_hover_from_design_point(self, x: float, y: float) -> None:
+    def set_hover_from_design_point(self, x: float, y: float, is_route_card_visible:bool) -> None:
         self.hovered_route_card_index = None
-        for state in self.route_card_states():
-            if state.rect.contains(x, y):
-                self.hovered_route_card_index = state.index
-                break
+        if is_route_card_visible:
+            for state in self.route_card_states():
+                if state.rect.contains(x, y):
+                    self.hovered_route_card_index = state.index
+                    break
 
         self.hovered_track_id = None
         hit_track = self.track_at_design_point(x, y)
