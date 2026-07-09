@@ -188,13 +188,66 @@ class FinalScoreSummary:
 
 # Prototype route layout. Coordinates come from assets/docs/table.md and can be
 # replaced without touching controller/view code.
+# _DEFAULT_TRACK_CHIP_ROWS = [
+#     ((17, 18, 8), (10, 33, 7), (17, 36, 7)),
+#     ((32, 9, 1), (49, 5, 3), (60, 2, 1), (72, 5, 16)),
+#     ((25, 24, 4), (35, 17, 6), (49, 18, 13), (55, 31, 12)),
+#     ((73, 19, 8), (66, 30, 8), (89, 12, 18), (103, 14, 17)),
+#     ((115, 18, 16), (116, 26, 5), (106, 33, 4), (92, 39, 17)),
+#     ((79, 38, 1), (66, 39, 1), (48, 38, 16), (37, 35, 17), (25, 36, 3)),
+# ]
+
 _DEFAULT_TRACK_CHIP_ROWS = [
-    ((17, 18, 8), (10, 33, 7), (17, 36, 7)),
-    ((32, 9, 1), (49, 5, 3), (60, 2, 1), (72, 5, 16)),
-    ((25, 24, 4), (35, 17, 6), (49, 18, 13), (55, 31, 12)),
-    ((73, 19, 8), (66, 30, 8), (89, 12, 18), (103, 14, 17)),
-    ((115, 18, 16), (116, 26, 5), (106, 33, 4), (92, 39, 17)),
-    ((79, 38, 1), (66, 39, 1), (48, 38, 16), (37, 35, 17), (25, 36, 3)),
+    # Manually grouped rows based on the provided example (Items 1-24)
+    ((17, 18, 8)), # vancouver-seatle
+    ((10, 33, 7)), #seatle-portland
+    ((17, 36, 7)), #seatle-portland
+    ((32, 9, 1)), # vancouver-calgary
+    ((49, 5, 3), (60, 2, 1), (72, 5, 16)), #calgary-winnipeg
+    ((25, 24, 4), (35, 17, 6)), #calgary-seatle
+    ((49, 18, 13), (55, 31, 12)), #calgary-helena
+    ((73, 19, 8), (66, 30, 8)), # winnipegg-helena
+    ((89, 12, 18), (103, 14, 17), (115, 18, 16)), # winnipeg - sault-ste-marie
+    ((116, 26, 5), (106, 33, 4)), # sault-ste-maire - dulith
+    ((92, 39, 17), (79, 38, 1), (66, 39, 1)), # dulith-helena
+    ((48, 38, 16), (37, 35, 17), (25, 36, 3)), #helena - portland
+    
+    # Sequentially grouped remainder of the table (Items 25-94)
+    ((4, 48, 6), (-1, 59, 9), (-2, 71, 10), (1, 82, 13)),  # portland - sac-francisco
+    ((10, 51, 12), (7, 61, 9), (6, 70, 9), (7, 78, 8)), # portland - sac-francisco
+    ((20, 43, 17), (30, 47, 15), (38, 54, 14), (42, 63, 11)), # portland - salt-lake-city
+    ((51, 48, 7), (49, 60, 8)), # helena - salt-lake-city
+    ((61, 49, 12), (65, 61, 12), (68, 72, 11)), # helena - denver
+    ((61, 76, 16), (51, 71, 16)), # salt-lake-city - denver
+    ((50, 77, 15), (60, 81, 2)), # salt-lake-city - denver
+    ((75, 74, 5), (85, 66, 4)), # denver - omaha 
+    ((90, 57, 15), (80, 51, 16), (69, 46, 17)), # omaha - helena
+    ((99, 46, 8), (97, 57, 12)), # omaha - dulith
+    ((103, 57, 7), (114, 55, 17)), # omaha - chicago
+    ((118, 50, 15), (108, 44, 16)), # chicago - dulith
+    ((110, 36, 3), (120, 34, 2), (131, 33, 17), (140, 33, 2)), # dulith - toronto
+    ((130, 16, 5), (140, 10, 3) ,(150, 8, 1)), # sault-ste-marie - montreal
+    ((131, 23, 2), (141, 25, 16)), # sault-ste-marie - toronto
+    ((152, 12, 6), (148, 21, 8)), # montreal - toronto
+    ((168, 15, 15)), # monreal - boston
+    ((163, 19, 13)), # monreal - boston
+    ((169, 34, 9)), # boston - new york
+    ((164, 32, 8)), # boston - new york
+    ((155, 46, 5)), # new york - pittsburgh
+    ((165, 52, 12)), # new york - washington
+    ((149, 56, 14), (158, 61, 17)), # washington - pittsburgh
+    ((140, 48, 3), (128, 51, 6)), # pittsburgh - chicago
+    ((117, 68, 9), (124, 73, 5), (132, 63, 7)), # chicago - saint louis
+    ((140, 55, 7), (132, 63, 8), (124, 72, 4)), # saint louis - pittsburgh
+    ((161, 71, 6), (164, 84, 14), (166, 92, 6)),# washington - raleigh
+    ((154, 95, 17)), # charleson - atlanta
+    ((140, 90, 16)), # atlanta - nashville
+    ((151, 86, 7)), # nashville - raleigh
+    ((125, 82, 17)), # nashville - saint louis
+    ((128, 91, 5)), # nashville - little rock
+    ((120, 88, 13)), # little rock - saint louis
+    ((115, 94, 16), (103, 94, 4)), #little rock - oklahoma city
+    ((104, 101, 16), (114, 101, 14)) #little rock - oklahoma city
 ]
 
 

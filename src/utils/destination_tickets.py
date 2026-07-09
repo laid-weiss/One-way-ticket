@@ -47,7 +47,9 @@ class Destination(Enum):
     Boston = 31
     Montreal = 32
     Sault_Ste_Marie = 33
-    Duluth = 34
+    Salt_Lake_City = 35
+    Toronto = 36
+    Oklahoma_City = 37
     
 
 
