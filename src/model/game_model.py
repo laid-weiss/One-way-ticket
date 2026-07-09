@@ -76,7 +76,7 @@ CITY_POINTS_TOP_LEFT: dict[Destination, tuple[int, int]] = {
     Destination.Kansas_City: (106, 82),
     Destination.Omaha: (106, 70),
     Destination.Saint_Louis: (125, 87),
-    Destination.Little_Rock: (103, 104),
+    Destination.Little_Rock: (130, 104),
     Destination.Nashville: (140, 93),  
 }
 
