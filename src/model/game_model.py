@@ -471,16 +471,44 @@ class GameModel:
 
     def open_train_card_states(self) -> list[OpenTrainCardState]:
         card_w, card_h = constants.TRAIN_CARD_SIZE_PIXELS
+        card_w = int(card_w / 2)
+        card_h = int(card_h / 2)
         gap = 2
         cards = self.open_train_cards()
-        total_width = len(cards) * card_w + max(0, len(cards) - 1) * gap
+        
+        # Задаем базовый отступ сверху и вертикальный зазор между рядами
+        top_row_1 = 14
+        top_row_2 = top_row_1 + card_h + gap
+        
+        # Рассчитываем общую ширину по самому длинному (второму) ряду из 3-х карт
+        # Даже если карт меньше 3, мы резервируем место под полноценные 3 карты для выравнивания
+        max_cards_in_row = 3
+        total_width = max_cards_in_row * card_w + (max_cards_in_row - 1) * gap
+        
+        # Левая граница для всего блока карт (выравнивание по правому краю экрана)
         start_left = constants.SCREEN_WIDTH_IN_PIXELS - total_width - 3
-        top = 14
-        return [
-            OpenTrainCardState(i, card_type, RectPx.from_top_left(start_left + i * (card_w + gap), top, card_w, card_h))
-            for i, card_type in enumerate(cards)
-        ]
-
+        
+        # Сдвиг для первого ряда, чтобы карты встали ровно «между» картами второго ряда
+        row_1_offset = int(card_w / 2) + int(gap / 2)
+        
+        states = []
+        for i, card_type in enumerate(cards):
+            # Первые 2 карты идут в первый ряд (индексы 0, 1)
+            if i < 2:
+                left = start_left + row_1_offset + i * (card_w + gap)
+                top = top_row_1
+            # Остальные (индексы 2, 3, 4) идут во второй ряд
+            else:
+                idx_in_row2 = i - 2  # Индекс внутри второго ряда (0, 1, 2)
+                left = start_left + idx_in_row2 * (card_w + gap)
+                top = top_row_2
+                
+            states.append(
+                OpenTrainCardState(i, card_type, RectPx.from_top_left(left, top, card_w, card_h))
+            )
+            
+        return states
+    
     def closed_train_deck_button_rect(self) -> RectPx:
         width, height = constants.CLOSED_TRAIN_DECK_BUTTON_SIZE_PIXELS
         return RectPx.from_top_left(constants.SCREEN_WIDTH_IN_PIXELS - width - 3, 68, width, height)
