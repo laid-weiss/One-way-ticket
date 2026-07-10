@@ -621,7 +621,7 @@ class GameModel:
         if self.game_over:
             return ActionResult(False, "Игра завершена")
         self.selected_train_card_type = card_type
-        self.last_message = f"Выбран цвет: {card_type.name}"
+        self.last_message = f"COLOR CHOSEN: {card_type.name}"
         return ActionResult(True, self.last_message)
 
     def take_closed_train_card(self) -> ActionResult:
@@ -634,7 +634,7 @@ class GameModel:
 
         self.current_player.train_deck.append(card)
         self.train_cards_taken_this_turn += 1
-        self.last_message = f"Игрок {self.current_player.ID} взял закрытую карту"
+        self.last_message = f"PLAYER {self.current_player.ID} TOOK CARD FROM CLOSED DECK"
 
         if self.train_cards_taken_this_turn >= 2:
             self.end_turn()
@@ -657,7 +657,7 @@ class GameModel:
         card = self.train_cards_deck.take_open_card(index)
         self.current_player.train_deck.append(card)
         self.train_cards_taken_this_turn += 1
-        self.last_message = f"Игрок {self.current_player.ID} взял открытую карту {card.name}"
+        self.last_message = f"PLAYER {self.current_player.ID} TOOK {card.name} OPEN CARD"
 
         if card == TrainCardType.LOCOMOTIVE or self.train_cards_taken_this_turn >= 2:
             self.end_turn()
@@ -675,7 +675,7 @@ class GameModel:
         self.current_player.temp_route_deck = drawn
         self.destination_ticket_keep_indices = set(range(len(drawn)))
         self.phase = TurnPhase.CHOOSING_DESTINATION_TICKETS
-        self.last_message = f"Игрок {self.current_player.ID} взял {len(drawn)} маршрут(а)"
+        self.last_message = f"PLAYER {self.current_player.ID} TOOK {len(drawn)} DESTINATION"
         return ActionResult(True, self.last_message)
 
     def keep_drawn_destination_tickets(self, keep_indices: Iterable[int]) -> ActionResult:
@@ -693,7 +693,7 @@ class GameModel:
         self.current_player.temp_route_deck.clear()
         self.destination_ticket_keep_indices.clear()
         self.destination_tickets_deck.return_tickets(*returned)
-        self.last_message = f"Игрок {self.current_player.ID} оставил маршрутов: {len(kept)}"
+        self.last_message = f"PLAYER {self.current_player.ID} KEPT DESTINATIONS: {len(kept)}"
         self.end_turn()
         return ActionResult(True, self.last_message, turn_ended=True)
 
@@ -715,7 +715,7 @@ class GameModel:
             self.destination_ticket_keep_indices.remove(index)
         else:
             self.destination_ticket_keep_indices.add(index)
-        self.last_message = f"Маршрутов выбрано: {len(self.destination_ticket_keep_indices)}"
+        self.last_message = f"DESTINATIONS CHOSEN: {len(self.destination_ticket_keep_indices)}"
         return ActionResult(True, self.last_message)
 
     def confirm_drawn_destination_tickets(self) -> ActionResult:
@@ -748,7 +748,7 @@ class GameModel:
         self.current_player.remaining_train_chips -= track.length
         self.current_player.points += self.route_points_for_length(track.length)
         self.selected_train_card_type = None
-        self.last_message = f"Игрок {self.current_player.ID} занял {track.station1.name}-{track.station2.name}"
+        self.last_message = f"PLAYER {self.current_player.ID} BUILT {track.station1.name}-{track.station2.name}"
         self.end_turn()
         return ActionResult(True, self.last_message, turn_ended=True)
 
@@ -827,7 +827,7 @@ class GameModel:
         if self.final_turns_remaining is None and self.current_player.remaining_train_chips <= 2:
             self.final_turns_remaining = len(self.players)
             started_final_now = True
-            self.last_message = f"Финальный круг начался: игрок {self.current_player.ID} имеет 2 или меньше вагончиков"
+            self.last_message = f"FINAL TURN HAD STARTED: PLAYER {self.current_player.ID} HAS 2 OR LESS TRAIN CHIPS"
         elif self.final_turns_remaining is not None:
             self.final_turns_remaining -= 1
             if self.final_turns_remaining <= 0:

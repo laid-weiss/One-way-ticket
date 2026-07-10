@@ -269,7 +269,7 @@ class GameTableView:
             if self.model.final_turns_remaining is not None:
                 message += f"  FINAL:{self.model.final_turns_remaining}"
         if self.model.last_message:
-            message += f"  {self.model.last_message[:32]}"
+            message += f" | {self.model.last_message[:]}"
         self._draw_text(message, 62, 214, arcade.color.WHITE, 4)
 
 
