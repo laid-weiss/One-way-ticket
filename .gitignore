@@ -1,2 +1,3 @@
 game_env/
 *.pyc
+settings.json
