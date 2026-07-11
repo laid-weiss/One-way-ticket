@@ -146,19 +146,6 @@ class GameTableView:
                 continue
             design_x = map_left + city_point[0]
             design_y = constants.SCREEN_HEIGHT_IN_PIXELS - (map_top + city_point[1])
-            # arcade.draw_circle_filled(
-            #     design_x * constants.PIXEL_SIZE,
-            #     design_y * constants.PIXEL_SIZE,
-            #     5 * constants.PIXEL_SIZE,
-            #     (255, 230, 80, 190),
-            # )
-            # arcade.draw_circle_outline(
-            #     design_x * constants.PIXEL_SIZE,
-            #     design_y * constants.PIXEL_SIZE,
-            #     7 * constants.PIXEL_SIZE,
-            #     arcade.color.WHITE,
-            #     1 * constants.PIXEL_SIZE,
-            # )
             arcade.draw_texture_rect(self.highlighted_circle, arcade.XYWH(design_x * constants.PIXEL_SIZE, 
                                                                           design_y * constants.PIXEL_SIZE, 
                                                                           13 * constants.PIXEL_SIZE, 
@@ -186,24 +173,24 @@ class GameTableView:
     def _draw_player_plates(self):
         for plate in self.model.player_plate_states():
             if not plate.is_present:
-                self._draw_text("--", plate.rect.center_x, plate.rect.center_y - 2, arcade.color.GRAY, 5, "center", "center")
+                self._draw_text("--", plate.rect.center_x + constants.PIXEL_SIZE, plate.rect.center_y, arcade.color.GRAY, constants.PIXEL_SIZE, "center", "center")
                 continue
 
             text_color = arcade.color.WHITE
-            color = self.player_color_map.get(plate.chip_color, arcade.color.WHITE)
+            color = (255,255,255,0)
             arcade.draw_rect_outline(self._scaled_rect(plate.rect), color, border_width=max(1, constants.PIXEL_SIZE))
 
             if plate.is_active:
                 self._draw_turn_arrow(plate.rect)
 
-            self._draw_text(f"P{plate.player_id}", plate.rect.left + 4, plate.rect.bottom + 14, text_color, 4)
-            self._draw_text(f"T:{plate.remaining_train_chips:02}", plate.rect.left + 17, plate.rect.bottom + 14, text_color, 4)
-            self._draw_text(f"P:{plate.points:02}", plate.rect.left + 17, plate.rect.bottom + 5, text_color, 4)
+            self._draw_text(f"P{plate.player_id}", plate.rect.center_x + constants.PIXEL_SIZE, plate.rect.center_y - constants.PIXEL_SIZE, text_color, constants.PIXEL_SIZE)
+            self._draw_text(f"T:{plate.remaining_train_chips:02}", plate.rect.center_x + 3 * constants.PIXEL_SIZE, plate.rect.center_y, text_color, constants.PIXEL_SIZE)
+            self._draw_text(f"P:{plate.points:02}", plate.rect.center_x + 3 * constants.PIXEL_SIZE, plate.rect.center_y - 2 * constants.PIXEL_SIZE, text_color, constants.PIXEL_SIZE)
 
     def _draw_turn_arrow(self, rect: RectPx):
-        x = (rect.left - 3) * constants.PIXEL_SIZE
+        x = (rect.left) * constants.PIXEL_SIZE
         y = rect.center_y * constants.PIXEL_SIZE
-        size = 5 * constants.PIXEL_SIZE
+        size = 8 * constants.PIXEL_SIZE
         arcade.draw_triangle_filled(
             x,
             y,
@@ -225,16 +212,16 @@ class GameTableView:
         rect = self.model.destination_deck_button_rect()
         self._draw_texture_in_rect(self.route_card_texture, rect)
         label = "KEEP" if self.model.phase == TurnPhase.CHOOSING_DESTINATION_TICKETS else "NEW"
-        self._draw_text(label, rect.center_x, rect.bottom + 28, arcade.color.BLACK, 4, "center", "center")
-        self._draw_text("ROUT", rect.center_x, rect.bottom + 18, arcade.color.BLACK, 4, "center", "center")
+        self._draw_text(label, rect.center_x, rect.center_y + constants.PIXEL_SIZE, arcade.color.BLACK, constants.PIXEL_SIZE, "center", "center")
+        self._draw_text("ROUTES", rect.center_x, rect.center_y - constants.PIXEL_SIZE, arcade.color.BLACK, constants.PIXEL_SIZE, "center", "center")
 
     def _draw_route_cards(self):
         for state in self.model.route_card_states():
             self._draw_texture_in_rect(self.route_card_texture, state.rect)
             ticket = state.ticket
-            self._draw_text(ticket.start.name, state.rect.center_x, state.rect.bottom + 33, arcade.color.BLACK, 5, "center", "center")
-            self._draw_text(ticket.finish.name, state.rect.center_x, state.rect.bottom + 21, arcade.color.BLACK, 5, "center", "center")
-            self._draw_text(str(ticket.price), state.rect.center_x, state.rect.bottom + 8, arcade.color.BLACK, 5, "center", "center")
+            self._draw_text(ticket.start.name.replace('_', ' '), state.rect.center_x, state.rect.bottom + 8 * constants.PIXEL_SIZE, arcade.color.BLACK, constants.PIXEL_SIZE, "center", "center")
+            self._draw_text(ticket.finish.name.replace('_', ' '), state.rect.center_x, state.rect.bottom + 5 * constants.PIXEL_SIZE, arcade.color.BLACK, constants.PIXEL_SIZE, "center", "center")
+            self._draw_text(str(ticket.price), state.rect.center_x, state.rect.bottom + 2 * constants.PIXEL_SIZE, arcade.color.BLACK, constants.PIXEL_SIZE, "center", "center")
             if self.model.phase == TurnPhase.CHOOSING_DESTINATION_TICKETS:
                 outline_color = (50, 220, 50) if state.selected else (150, 20, 20)
                 arcade.draw_rect_outline(self._scaled_rect(state.rect), outline_color, border_width=max(1, constants.PIXEL_SIZE))
@@ -247,7 +234,7 @@ class GameTableView:
             counter_color = arcade.color.BLACK if state.card_type in (TrainCardType.WHITE, TrainCardType.YELLOW) else arcade.color.WHITE
             if state.card_type == TrainCardType.LOCOMOTIVE:
                 counter_color = arcade.color.WHITE
-            self._draw_text(str(state.count), state.rect.center_x, state.rect.bottom + 7, counter_color, 7, "center", "center")
+            self._draw_text(str(state.count), state.rect.center_x, state.rect.bottom + 7, counter_color, constants.PIXEL_SIZE * 2, "center", "center")
             if state.selected:
                 arcade.draw_rect_outline(self._scaled_rect(state.rect), arcade.color.WHITE, border_width=max(1, 2 * constants.PIXEL_SIZE))
 
@@ -255,8 +242,8 @@ class GameTableView:
         chips_rect = self.model.current_player_chip_counter_rect()
         score_rect = self.model.current_player_score_counter_rect()
         player = self.model.current_player
-        self._draw_text(str(player.remaining_train_chips), chips_rect.center_x, chips_rect.center_y, arcade.color.BLACK, 7, "center", "center")
-        self._draw_text(str(player.points), score_rect.center_x, score_rect.center_y, arcade.color.WHITE, 7, "center", "center")
+        self._draw_text(str(player.remaining_train_chips), chips_rect.center_x, chips_rect.center_y, arcade.color.BLACK, constants.PIXEL_SIZE * 2, "center", "center")
+        self._draw_text(str(player.points), score_rect.center_x, score_rect.center_y, arcade.color.WHITE, constants.PIXEL_SIZE * 2, "center", "center")
 
     def _draw_status_text(self):
         if self.model.phase == TurnPhase.GAME_OVER:
@@ -270,7 +257,7 @@ class GameTableView:
                 message += f"  FINAL:{self.model.final_turns_remaining}"
         if self.model.last_message:
             message += f" | {self.model.last_message[:]}"
-        self._draw_text(message, 62, 214, arcade.color.WHITE, 4)
+        self._draw_text(message, 62, 214, arcade.color.WHITE, constants.PIXEL_SIZE)
 
 
 # Backward-compatible name for older imports.

@@ -5,6 +5,8 @@ from ..view.main_menu_view import MainMenuView
 from ..controller.main_menu_controller import MainMenuController
 from ..utils.game_settings import GameSettings
 
+from ..utils import constants
+
 
 class MainMenuContainer(arcade.View):
     def __init__(self):
@@ -17,6 +19,24 @@ class MainMenuContainer(arcade.View):
 
     def on_show_view(self):
         arcade.set_background_color(arcade.color.EERIE_BLACK)
+
+    # def on_resize(self, width: int, height: int):
+    #     """
+    #     This method is automatically called when the window is resized.
+    #     """
+    #     # 1. Call the parent class's on_resize (good practice)
+    #     super().on_resize(width, height)
+
+    #     scale_x = width / self.width
+    #     scale_y = height / self.height
+    #     scale = min(scale_x, scale_y)
+
+    #     constants.PIXEL_SIZE *= scale
+    #     constants.SCREEN_HEIGHT = int(constants.SCREEN_HEIGHT_IN_PIXELS * constants.PIXEL_SIZE)
+    #     constants.SCREEN_WIDTH = int(constants.SCREEN_WIDTH_IN_PIXELS * constants.PIXEL_SIZE)
+
+    #     self.on_draw()
+
 
     def on_draw(self):
         self.clear()

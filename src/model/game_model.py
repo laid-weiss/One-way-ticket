@@ -261,9 +261,9 @@ _DEFAULT_TRACK_CHIP_ROWS = [
     ((165, 52, 12),), # new york - washington
     ((149, 56, 14), (158, 61, 17)), # washington - pittsburgh
     ((140, 48, 3), (128, 51, 6)), # pittsburgh - chicago
-    ((117, 68, 9), (124, 73, 5), (132, 63, 7)), # chicago - saint louis
-    ((140, 55, 7), (132, 63, 8), (124, 72, 4)), # saint louis - pittsburgh
-    ((161, 71, 6), (164, 84, 14), (166, 92, 6)),# washington - raleigh
+    ((117, 68, 9),), # chicago - saint louis
+    ((140, 55, 7),(132, 63, 8), (124, 72, 4)), # saint louis - pittsburgh
+    ((161, 71, 6),),# washington - raleigh
     ((154, 95, 17),), # charleson - atlanta
     ((140, 90, 16),), # atlanta - nashville
     ((151, 86, 7),), # nashville - raleigh
@@ -272,7 +272,8 @@ _DEFAULT_TRACK_CHIP_ROWS = [
     ((120, 88, 13),), # little rock - saint louis
     ((115, 94, 16), (103, 94, 4)), #little rock - oklahoma city
     ((104, 101, 16), (114, 101, 14)), #little rock - oklahoma city
-    ((17, 84, 3), (28, 79, 4), (38, 75, 5)) # san francisco - salt lake city
+    ((17, 84, 3), (28, 79, 4), (38, 75, 5)), # san francisco - salt lake city
+    ((164, 84, 14), (166, 92, 6)) # raleigh - charleson
 ]
 
 
@@ -349,7 +350,8 @@ def build_default_tracks() -> list[RouteTrack]:
         
         RouteTrack("little-rock-oklahoma-city-a", Destination.Little_Rock, Destination.Oklahoma_City, 2, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[45]), double_group="little-rock-oklahoma-city"),
         RouteTrack("little-rock-oklahoma-city-b", Destination.Little_Rock, Destination.Oklahoma_City, 2, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[46]), double_group="little-rock-oklahoma-city"),
-        RouteTrack("salt-lake-city-san-francisco", Destination.Salt_Lake_City, Destination.San_Francisco, 3, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[47]))
+        RouteTrack("salt-lake-city-san-francisco", Destination.Salt_Lake_City, Destination.San_Francisco, 3, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[47])),
+        RouteTrack("raleigh-charleston", Destination.Raleigh, Destination.Charleston, 2, None, _chips(_DEFAULT_TRACK_CHIP_ROWS[48]))
 
     ]
 
@@ -540,7 +542,7 @@ class GameModel:
         plate_w, plate_h = constants.PLAYER_PLATE_SIZE_PIXELS
         states: list[PlayerPlateState] = []
         for index in range(constants.MAX_PLAYERS):
-            rect = RectPx.from_top_left(4, 58 + index * 25, plate_w, plate_h)
+            rect = RectPx.from_top_left(4, 52 + index * 27, plate_w, plate_h)
             if index < len(self.players):
                 player = self.players[index]
                 states.append(
